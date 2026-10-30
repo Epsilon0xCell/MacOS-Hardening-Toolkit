@@ -1,6 +1,6 @@
 ![banner](assets/banner.png)
 
-# Custom-MacOS
+# MacOS-Hardening-Toolkit
 
 A personal collection of two macOS privacy and security shell scripts,
 both generated with [privacy.sexy](https://privacy.sexy/) (v0.13.7,
