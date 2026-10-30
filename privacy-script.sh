@@ -1,6 +1,26 @@
 #!/usr/bin/env bash
 # https://privacy.sexy - v0.13.7 - Sun, 08 Dec 2024 16:29:06 GMT
+# My notes on this file, since I am the one who picked the tweak
+# selection it was generated from and I keep it here to reuse:
+# This script deletes things. Histories, logs, browser data including
+# saved Firefox passwords, caches, iOS backups, and it resets every
+# TCC permission it can reach. Nothing in it asks first, section by
+# section, and there is no dry run. I read the section headers before
+# I run it and cut the sections I do not want that day.
+# It also has no set -e and no failure tally. A section can fail
+# halfway, the script carries on, and the closing message still says
+# the machine is hardened. The exit code only reflects the final
+# lines, not the 150 actions above them, so I do not trust a clean
+# exit as proof any single section worked.
 if [ "$EUID" -ne 0 ]; then
+    # The script re-runs itself as root and the original process exits.
+    # That split is why the path resolution below matters: $0 can be a
+    # relative path when I start it as ./privacy-script.sh, and sudo
+    # would look for the child in the wrong place without the $PWD
+    # prefix. Everything after this block can assume EUID is 0, which
+    # is also why the body still calls sudo in places where it is no
+    # longer needed. Harmless, but it tells you the body was generated
+    # to also work section by section outside this wrapper.
     script_path=$([[ "$0" = /* ]] && echo "$0" || echo "$PWD/${0#./}")
     sudo "$script_path" || (
         echo 'Administrator privileges are required.'
@@ -32,6 +52,12 @@ rm -f ~/.zsh_history
 echo '--- Clear diagnostic logs'
 # Clear directory contents: "/private/var/db/diagnostics"
 glob_pattern="/private/var/db/diagnostics/*"
+# The unquoted $glob_pattern in this and the sections below is the
+# mechanism, not a mistake. The star has to expand and the words have
+# to split for rm to get the file list. Quote it and rm receives one
+# literal path with a star in the name and deletes nothing. I fixed a
+# real unquoted-variable bug in security_enable.sh in an earlier pass
+# and deliberately left every one of these alone.
 sudo rm -rfv $glob_pattern
 # ----------------------------------------------------------
 
@@ -153,6 +179,11 @@ glob_pattern="/Library/Receipts/InstallHistory.plist"
 # --------------Clear Chrome browsing history---------------
 # ----------------------------------------------------------
 echo '--- Clear Chrome browsing history'
+# Every browser section from here through Firefox works on files the
+# browser holds open while it runs. If Chrome, Safari, or Firefox is
+# open during this script, the browser can write the same data back
+# on exit and the clearing silently did not happen. I quit all three
+# before running this file. The script itself never checks.
 rm -rfv ~/Library/Application\ Support/Google/Chrome/Default/History &>/dev/null
 rm -rfv ~/Library/Application\ Support/Google/Chrome/Default/History-journal &>/dev/null
 # ----------------------------------------------------------
@@ -549,6 +580,13 @@ sudo rm -rfv /var/db/lockdown/*
 # ---------------Clear **"All"** permissions----------------
 # ----------------------------------------------------------
 echo '--- Clear **"All"** permissions'
+# The block of sections from here to the CUPS cache is the part of
+# this script I feel a week later. Resetting a TCC permission does not
+# delete data, it deletes grants: camera, microphone, full disk
+# access, contacts, and the rest all go back to unanswered, and every
+# app asks again on next use, or quietly fails until it does. Anyone
+# reusing this file for the log clearing alone should cut this whole
+# block out first.
 if ! command -v 'tccutil' &> /dev/null; then
     echo 'Skipping because "tccutil" is not found.'
 else
@@ -1207,6 +1245,12 @@ sudo rm -rfv /var/spool/cups/cache/job.cache*
 # ----------------Empty trash on all volumes----------------
 # ----------------------------------------------------------
 echo '--- Empty trash on all volumes'
+# The &>/dev/null on this and the cache sections below hides every
+# error, including the ordinary ones (a volume with no .Trashes
+# folder, a file in use). I cannot tell from the output whether the
+# trash emptied or the path never existed. That silence is the
+# generated style of this file and I have left it, but it is one more
+# reason the closing success message proves little.
 # on all mounted volumes
 sudo rm -rfv /Volumes/*/.Trashes/* &>/dev/null
 # on main HDD
@@ -1526,6 +1570,12 @@ sudo defaults write /Library/Preferences/com.apple.alf allowdownloadsignedenable
 # ---------------Enable application firewall----------------
 # ----------------------------------------------------------
 echo '--- Enable application firewall'
+# Order matters in this last group. The two sections just above turn
+# off the automatic pass signed apps get through the firewall, and
+# they have to land before or with the firewall coming on here, or
+# the system re-adds the exceptions the script is trying to remove.
+# Run this section alone and you get a firewall with the default
+# holes still in it.
 /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 sudo defaults write /Library/Preferences/com.apple.alf globalstate -bool true
 defaults write com.apple.security.firewall EnableFirewall -bool true
@@ -1651,4 +1701,7 @@ sudo defaults write '/Library/Preferences/SystemConfiguration/com.apple.captive.
 
 echo 'Your privacy and security is now hardened 🎉💪'
 echo 'Press any key to exit.'
+# The || true is mine. A bare read fails when stdin is not a terminal,
+# so a scripted run that did everything right used to exit 1 and look
+# failed. Interactive runs still pause for the keypress.
 read -n 1 -s || true

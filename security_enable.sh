@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 # https://privacy.sexy - v0.13.7 - Sun, 08 Dec 2024 17:04:46 GMT
+# My warning to myself, because the file name lies: this is the revert
+# export for a small set of tweaks I picked in privacy.sexy, not a
+# hardening script and not the undo for privacy-script.sh, which
+# covers different tweaks entirely. Most sections below turn things
+# back on: automatic updates, the downloaded file warning, beta
+# installs. I keep it so the changes in that tweak set can be reversed
+# on purpose, and I never run it expecting a machine to end up safer.
 if [ "$EUID" -ne 0 ]; then
     script_path=$([[ "$0" = /* ]] && echo "$0" || echo "$PWD/${0#./}")
     sudo "$script_path" || (
@@ -16,6 +23,13 @@ fi
 echo '--- Clear logs of all downloaded files from File Quarantine'
 db_file=~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 db_query='delete from LSQuarantineEvent'
+# The immutable flags are the reason this section is shaped the way it
+# is: sqlite3 cannot write to a file flagged schg or uchg, so the
+# flags come off first, and whichever ones were set go back on after
+# the delete. The two has_ variables are the memory of what to
+# restore. If the delete itself fails, the flags still go back on and
+# the echo lines still claim the query ran, so this section can
+# report success over a database that never changed.
 if [ -f "$db_file" ]; then
     echo "Database exists at \"$db_file\""
     if ls -lO "$db_file" | grep --silent 'schg'; then
@@ -48,6 +62,11 @@ fi
 # --Clear File Quarantine attribute from downloaded files---
 # ----------------------------------------------------------
 echo '--- Clear File Quarantine attribute from downloaded files'
+# Known weak spot in this generated block: the file name reaches the
+# inner script as "{}" inside double quotes in the sh -c text, so a
+# downloaded file whose name contains a double quote breaks the inner
+# command for that file. It fails per file and the find keeps going,
+# so the section finishes looking normal with some files untouched.
 find ~/Downloads        \
         -type f         \
         -exec           \
@@ -74,6 +93,11 @@ find ~/Downloads        \
 # ----------------------------------------------------------
 echo '--- Disable downloaded file logging in quarantine (revert)'
 file_to_lock=~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
+# This section reaches back into the same database file the first
+# section just restored flags on, and takes schg off again for good.
+# The order is the whole meaning here: run these sections in the
+# other order and the first section would put the lock back. The end
+# state of the file is schg off, uchg left as it was.
 if [ -f "$file_to_lock" ]; then
     sudo chflags noschg "$file_to_lock"
     echo "Successfully reverted immutability from \"$file_to_lock\""
@@ -103,11 +127,25 @@ sudo defaults write /Library/Preferences/com.apple.security GKAutoRearm -bool fa
 echo '--- Disable Gatekeeper (revert)'
 os_major_ver=$(sw_vers -productVersion | awk -F "." '{print $1}')
 os_minor_ver=$(sw_vers -productVersion | awk -F "." '{print $2}')
+# A flaw I know is in this generated gate, stated plainly: the first
+# clause, major version at or below 10, already covers every case the
+# second clause names, so the second clause can never change the
+# result. On macOS 10.x this section prints that Gatekeeper is not
+# available and skips, even though Gatekeeper exists on every 10.x
+# release this script would meet. In practice the enable below only
+# runs on macOS 11 and later.
 if [[ $os_major_ver -le 10 \
         || ( $os_major_ver -eq 10 && $os_minor_ver -lt 7 ) \
     ]]; then
     >&2 echo "Gatekeeper is not available in this OS version"
 else
+    # The quotes on the two status tests below are a fix of mine. The
+    # generated version compared the bare variable, and when spctl
+    # printed nothing the tests errored with "unary operator
+    # expected" and the run exited 1 after doing its work. Quoted, an
+    # empty status lands in the Unknown branch, which is where it
+    # belongs. The same pattern in the quarantine section above was
+    # already quoted in the generated text.
     gatekeeper_status="$(spctl --status | awk '/assessments/ {print $2}')"
     if [ "$gatekeeper_status" = "disabled" ]; then
         sudo spctl --master-enable
@@ -195,4 +233,10 @@ sudo defaults write /Library/Preferences/com.apple.security.libraryvalidation.pl
 
 echo 'Your privacy and security is now hardened 🎉💪'
 echo 'Press any key to exit.'
+# My || true, same as in privacy-script.sh: a closed stdin used to
+# make a completed run exit 1. The closing message above is generated
+# text and is wrong for this file, since most of what it just did was
+# revert settings. I leave the message because it is part of the
+# generated export, and the README and the header note in this file
+# carry the true description.
 read -n 1 -s || true
