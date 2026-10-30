@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# https://privacy.sexy — v0.13.7 — Sun, 08 Dec 2024 16:29:06 GMT
+# https://privacy.sexy - v0.13.7 - Sun, 08 Dec 2024 16:29:06 GMT
 if [ "$EUID" -ne 0 ]; then
     script_path=$([[ "$0" = /* ]] && echo "$0" || echo "$PWD/${0#./}")
     sudo "$script_path" || (
@@ -1651,4 +1651,4 @@ sudo defaults write '/Library/Preferences/SystemConfiguration/com.apple.captive.
 
 echo 'Your privacy and security is now hardened 🎉💪'
 echo 'Press any key to exit.'
-read -n 1 -s
+read -n 1 -s || true

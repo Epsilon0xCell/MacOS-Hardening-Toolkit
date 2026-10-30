@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# https://privacy.sexy — v0.13.7 — Sun, 08 Dec 2024 17:04:46 GMT
+# https://privacy.sexy - v0.13.7 - Sun, 08 Dec 2024 17:04:46 GMT
 if [ "$EUID" -ne 0 ]; then
     script_path=$([[ "$0" = /* ]] && echo "$0" || echo "$PWD/${0#./}")
     sudo "$script_path" || (
@@ -109,11 +109,11 @@ if [[ $os_major_ver -le 10 \
     >&2 echo "Gatekeeper is not available in this OS version"
 else
     gatekeeper_status="$(spctl --status | awk '/assessments/ {print $2}')"
-    if [ $gatekeeper_status = "disabled" ]; then
+    if [ "$gatekeeper_status" = "disabled" ]; then
         sudo spctl --master-enable
         sudo defaults write '/var/db/SystemPolicy-prefs' 'enabled' -string 'yes'
         echo "Enabled Gatekeeper"
-    elif [ $gatekeeper_status = "enabled" ]; then
+    elif [ "$gatekeeper_status" = "enabled" ]; then
         echo "No action needed, Gatekeeper is already enabled"
     else
         >&2 echo "Unknown Gatekeeper status: $gatekeeper_status"
@@ -195,4 +195,4 @@ sudo defaults write /Library/Preferences/com.apple.security.libraryvalidation.pl
 
 echo 'Your privacy and security is now hardened 🎉💪'
 echo 'Press any key to exit.'
-read -n 1 -s
+read -n 1 -s || true
