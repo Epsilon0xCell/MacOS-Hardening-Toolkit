@@ -57,6 +57,17 @@ Running it undoes those particular hardenings. It does not revert
 anything `privacy-script.sh` does; the two scripts cover different
 tweaks. Do not run it expecting it to harden a system.
 
+Two small deviations from the generated export live in
+`security_enable.sh`, each marked with an in-file comment where it
+sits. The Gatekeeper version gate used `-le 10` in its first clause,
+which swallowed its own second clause, so the enable path only ever
+ran on macOS 11 and later; the first clause is now `-lt 10`, and the
+gate skips only below 10.7. The quarantine attribute loop passed
+each file name as a quoted placeholder inside the inner `sh -c`
+text, so a file name containing a double quote broke that file
+iteration; the name now arrives as the inner shell first positional
+argument instead. Nothing else in the generated bodies was changed.
+
 ## Usage
 
 ```bash
@@ -66,6 +77,21 @@ chmod +x privacy-script.sh security_enable.sh
 
 Each script pauses at the end waiting for a keypress. When stdin is
 not a terminal the pause is skipped and the scripts exit 0 on success.
+
+## Tests
+
+```bash
+python3 -m unittest discover -s tests
+```
+
+7 tests, all passing when I last ran them on a Linux host. Neither
+script is run by the suite: both need a Mac and change system state.
+The tests check `bash -n` on both scripts and the generator headers,
+then pull the Gatekeeper gate condition and the quarantine find
+block out of `security_enable.sh` itself and run those pieces
+against stubbed version numbers and a stub `xattr`, including a
+Downloads file whose name contains a double quote. That is static
+and stub verification only. No Mac run is claimed.
 
 ## License
 

@@ -62,18 +62,21 @@ fi
 # --Clear File Quarantine attribute from downloaded files---
 # ----------------------------------------------------------
 echo '--- Clear File Quarantine attribute from downloaded files'
-# Known weak spot in this generated block: the file name reaches the
-# inner script as "{}" inside double quotes in the sh -c text, so a
-# downloaded file whose name contains a double quote breaks the inner
-# command for that file. It fails per file and the find keeps going,
-# so the section finishes looking normal with some files untouched.
+# Deviation from the generated export, mine: the generated block
+# put the file name into the inner script as "{}" inside double
+# quotes in the sh -c text, so a downloaded file whose name contains
+# a double quote broke the inner command for that file and the find
+# kept going, leaving it untouched. The name now arrives as the
+# first positional argument instead (the _ below is the inner
+# shell name, {} becomes $1), so quoting in a file name cannot
+# break out of the assignment.
 find ~/Downloads        \
         -type f         \
         -exec           \
             sh -c       \
                 '
                     attr="com.apple.quarantine"
-                    file="{}"
+                    file="$1"
                     if [[ $(xattr "$file") = *$attr* ]]; then
                         if xattr -d "$attr" "$file" 2>/dev/null; then
                             echo "🧹 Cleaned attribute from \"$file\""
@@ -84,7 +87,7 @@ find ~/Downloads        \
                         echo "No attribute in \"$file\""
                     fi
                 '       \
-            {} \;
+            _ {} \;
 # ----------------------------------------------------------
 
 
@@ -127,14 +130,14 @@ sudo defaults write /Library/Preferences/com.apple.security GKAutoRearm -bool fa
 echo '--- Disable Gatekeeper (revert)'
 os_major_ver=$(sw_vers -productVersion | awk -F "." '{print $1}')
 os_minor_ver=$(sw_vers -productVersion | awk -F "." '{print $2}')
-# A flaw I know is in this generated gate, stated plainly: the first
-# clause, major version at or below 10, already covers every case the
-# second clause names, so the second clause can never change the
-# result. On macOS 10.x this section prints that Gatekeeper is not
-# available and skips, even though Gatekeeper exists on every 10.x
-# release this script would meet. In practice the enable below only
-# runs on macOS 11 and later.
-if [[ $os_major_ver -le 10 \
+# Deviation from the generated export, mine, one operator: the
+# generated gate used -le 10 in the first clause, which already
+# covers every case the second clause names, so the second clause
+# could never change the result and the enable below only ever ran
+# on macOS 11 and later. Gatekeeper exists from 10.7 on, so the
+# first clause is now -lt 10 and the gate skips only below 10.7,
+# which is what the second clause was always trying to say.
+if [[ $os_major_ver -lt 10 \
         || ( $os_major_ver -eq 10 && $os_minor_ver -lt 7 ) \
     ]]; then
     >&2 echo "Gatekeeper is not available in this OS version"
