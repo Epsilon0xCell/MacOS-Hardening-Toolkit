@@ -1,165 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MacOS Hardening Toolkit: what it is, how it runs, where it stops</title>
-<meta name="description" content="MacOS Hardening Toolkit is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.">
-<style>
-:root {
-  --bg: #f0ead8; --panel: #faf6ea; --ink: #1e342c;
-  --mut: #ffffff;
-  --acc: #b26e28; --acc2: #ac362c;
-  --line: #faf6ea;
-}
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink);
-  font-family: 'Trebuchet MS', sans-serif; line-height: 1.55; }
-code, pre, .mono { font-family: 'Courier New', monospace; }
-a { color: var(--acc2); }
-.hero { padding: 3rem 6vw 1rem; }
-.hero img.banner { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; }
-.logo { width: 92px; height: 92px; border-radius: 18px;
-  border: 1px solid var(--line); }
-h1 { font-size: 2.4rem; margin: 0.4em 0 0.1em; }
-h2 { border-bottom: 2px solid var(--acc); padding-bottom: 0.2em;
-  margin-top: 2em; }
-.lede { font-size: 1.15rem; max-width: 62ch; }
-main { padding: 0 6vw 3rem; max-width: 1180px; margin: 0 auto; }
-.grid { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-.card { background: var(--panel); border: 1px solid var(--line);
-  border-radius: 12px; padding: 1rem 1.2rem; }
-.card.pop { animation: rise 0.7s ease both; }
-@keyframes rise { from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: none; } }
-pre.code { background: #101014; color: #e8e6df; padding: 1rem 1.2rem;
-  border-radius: 12px; overflow-x: auto; font-size: 0.86rem;
-  border-left: 5px solid var(--acc); }
-table { border-collapse: collapse; width: 100%; }
-td, th { border-bottom: 1px solid var(--line); padding: 0.45rem 0.6rem;
-  text-align: left; }
-.shots { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.shots img { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; background: #f4f1e8; }
-footer { padding: 2rem 6vw; border-top: 1px solid var(--line);
-  color: var(--mut); }
-.rail { display: flex; gap: 1.2rem; align-items: flex-start; }
-.rail nav { position: sticky; top: 1rem; min-width: 180px; }
-@media (max-width: 760px) { .rail { flex-direction: column; }
-  .rail nav { position: static; } }
-@media (prefers-reduced-motion: reduce) {
-  .card.pop { animation: none; } * { scroll-behavior: auto; } }
-</style>
-</head>
-<body class="layout-poster">
-<!-- This page exists for MacOS-Hardening-Toolkit alone: the layout (poster),
-     the colors, and the type were picked for this project, not
-     shared with the other project pages. The code block below is
-     copied from the file it names, line for line. If it looks
-     plain, that is because the project is plain, and I would
-     rather the page match the project than dress it up. The one
-     thing I will not do here is oversell: what this project does
-     not do is stated on the page, not hidden from it. -->
-<header class="hero">
-  <img class="logo" src="assets/logo.png" alt="MacOS Hardening Toolkit logo">
-  <img class="banner" src="assets/banner.png" alt="">
-  <h1>MacOS Hardening Toolkit</h1>
-  <p class="mono"><a href="https://github.com/Epsilon0xCell/MacOS-Hardening-Toolkit">github.com/Epsilon0xCell/MacOS-Hardening-Toolkit</a></p>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MacOS-Hardening-Toolkit: The Dinosaur Court</title><style>
+@font-face{font-family:Alkatra;src:url(fonts/Alkatra.ttf)}
+@font-face{font-family:Cabin;src:url(fonts/Cabin.ttf)}
+*{box-sizing:border-box}body{margin:0;background:#173b2e;color:#2c2418;font-family:Cabin,Georgia,sans-serif}
+.path{max-width:1060px;margin:0 auto;padding:0 18px 60px;border-left:6px solid #b08c3e}
+header{padding:34px 0 8px}header img{width:100%;border:4px solid #5c4630}
+h1,h2{font-family:Alkatra,serif;color:#173b2e}
+h1{font-size:2.4rem;margin:14px 0 6px;color:#efe9d2}
+.lede{color:#efe9d2;font-size:1.12rem;max-width:44rem}
+nav{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+a.btn{display:inline-block;background:#efe9d2;color:#2c2418;text-decoration:none;padding:9px 16px;border:2px solid #b08c3e;border-radius:6px 2px 6px 2px;position:relative;font-weight:700}
+a.btn::before,a.btn::after{content:"";position:absolute;top:4px;width:6px;height:6px;border-radius:50%;background:#8a6d2f}
+a.btn::before{left:5px}a.btn::after{right:5px}
+a.btn:hover{box-shadow:inset 0 0 0 60px rgba(176,140,62,0.18)}
+a.btn:active{transform:translateY(2px)}
+.panel{background:#f3eedc;border:3px solid #5c4630;padding:22px 26px;margin:26px 0;position:relative;box-shadow:8px 8px 0 rgba(0,0,0,0.25)}
+.panel::before,.panel::after{content:"";position:absolute;top:8px;width:11px;height:11px;border-radius:50%;background:#b08c3e;border:2px solid #8a6d2f}
+.panel::before{left:10px}.panel::after{right:10px}
+.panel:nth-of-type(even){margin-left:56px}.panel:nth-of-type(odd){margin-right:56px}
+.acc{position:absolute;top:8px;right:34px;font-size:0.78rem;color:#8a6d2f;letter-spacing:0.12em}
+.note{background:#e6ddc2;border-left:6px solid #b08c3e;padding:12px 16px;font-style:italic}
+.note.dark{background:#d9cdb0;border-left-color:#5c4630;font-style:normal}
+code,pre{font-family:ui-monospace,Menlo,monospace}pre{background:#173b2e;color:#efe9d2;padding:14px;overflow:auto}
+.kerb{height:14px;background:#6d7a5e;position:relative;margin:34px 0}
+.kerb::after{content:"";position:absolute;left:50%;top:-6px;width:52px;height:24px;margin-left:-26px;background:#efe9d2;border:2px solid #b08c3e;border-radius:4px}
+footer{color:#efe9d2;text-align:center;padding:20px 0 0}
+a{color:#5c4630}a:hover{color:#b08c3e}
+</style></head>
+<body><div class="path">
+<header><img src="assets/intro-banner.png" alt="The dinosaur court at dawn, stone animals around a misty lake">
+<h1>MacOS-Hardening-Toolkit</h1>
+<p class="lede">Two macOS privacy and security shell scripts, generated with privacy.sexy (v0.13.7, December 2024) from a hand picked tweak selection. The main script works through roughly 150 actions. Both scripts need administrator rights and make system wide changes, so read a script before you run it.</p>
+<nav><a class="btn" href="#cleared">What gets cleared</a><a class="btn" href="#hardened">What gets hardened</a><a class="btn" href="#run">How to run</a><a class="btn" href="#cautions">Cautions and reversals</a><a class="btn" href="https://github.com/Epsilon0xCell/MacOS-Hardening-Toolkit">The repo</a></nav>
 </header>
-
-<main>
-  <section class="rail">
-    <nav aria-label="on this page">
-      <p class="mono"><a href="#run">Run it</a><br>
-      <a href="#files">The files</a><br>
-      <a href="#sheets">The sheets</a><br>
-      <a href="https://github.com/Epsilon0xCell/MacOS-Hardening-Toolkit">The repo</a></p>
-    </nav>
-    <div>
-      <p class="lede">MacOS Hardening Toolkit is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.</p>
-      <div class="grid">
-        <div class="card pop"><h3>What it is</h3>
-          <p>MacOS Hardening Toolkit: 4 files, 1858 counted
-          lines across Shell 1852, Markdown 6. One job, done in the
-          open, in files you can read.</p></div>
-        <div class="card pop"><h3>The biggest piece</h3>
-          <p><code>privacy-script.sh</code> carries the most
-          lines. If the project grows, that file is where the growth
-          lands first, for better or worse.</p></div>
-        <div class="card pop"><h3>The honest gap</h3>
-          <p>No test files yet. That is the honest gap, and the roadmap in the visuals folder says what the first one should cover.</p></div>
-      </div>
-      <section id="run">
-        <h2>Run it</h2>
-        <p>The repo README has the exact commands for this one. The
-        shape is the shape for most of my projects: clone it, read the
-        top file first so you know what will happen, then run it on
-        something you do not mind breaking.</p>
-        <p class="mono">$ git clone https://github.com/Epsilon0xCell/MacOS-Hardening-Toolkit.git<br>$ cd MacOS-Hardening-Toolkit</p>
-      </section>
-      
-  <section aria-label="real code">
-    <h2>The code, as it sits in the repo</h2>
-    <p>From <code>privacy-script.sh</code>, line 12 on. I did
-    not tidy it for the page. What you see is what the file has.</p>
-    <pre class="code"><code>
-# ----------------------------------------------------------
-# --------------------Clear bash history--------------------
-# ----------------------------------------------------------
-echo &#x27;--- Clear bash history&#x27;
-rm -f ~/.bash_history
-# ----------------------------------------------------------
-
-
-# ----------------------------------------------------------
-# --------------------Clear zsh history---------------------
-# ----------------------------------------------------------
-echo &#x27;--- Clear zsh history&#x27;
-rm -f ~/.zsh_history
-# ----------------------------------------------------------
-
-
-# ----------------------------------------------------------
-# ------------------Clear diagnostic logs-------------------
-# ----------------------------------------------------------
-echo &#x27;--- Clear diagnostic logs&#x27;
-# Clear directory contents: &quot;/private/var/db/diagnostics&quot;</code></pre>
-  </section>
-      <section id="files">
-        <h2>The files that matter</h2>
-        <table><tr><th>File</th><th>Lines</th></tr>
-        <tr><td><code>privacy-script.sh</code></td><td>1654</td></tr>
-        <tr><td><code>security_enable.sh</code></td><td>198</td></tr>
-        <tr><td><code>README.md</code></td><td>6</td></tr>
-        <tr><td><code>LICENSE</code></td><td>0</td></tr>
-        </table>
-        <p>Names doing the work: <span class="mono">no named functions in the snapshot</span>.</p>
-      </section>
-      <section id="sheets">
-        <h2>Drawn by hand</h2>
-        <p>I sketch my projects on notebook paper so I have to
-        understand them well enough to draw them. The full set,
-        with the counts and how they were counted, is the
-        <a href="https://github.com/Epsilon0xCell/MacOS-Hardening-Toolkit/tree/main/MacOS-Hardening-Toolkit-Visuals">MacOS-Hardening-Toolkit-Visuals</a>
-        folder in the repo. Nothing is drawn over the binder holes.
-        That is a rule, not a style.</p>
-        <div class="shots">
-          <img src="assets/architecture.png" alt="Hand drawn architecture sheet for MacOS Hardening Toolkit">
-          <img src="assets/flowchart.png" alt="Hand drawn flowchart sheet for MacOS Hardening Toolkit">
-          <img src="assets/product-map.png" alt="Hand drawn product map sheet for MacOS Hardening Toolkit">
-        </div>
-      </section>
-    </div>
-  </section>
-</main>
-<footer>
-  <p>MacOS Hardening Toolkit is one of my projects. This page was written
-  from the repo itself on 2026-10-30: the counts are the
-  repo's counts, the code is the repo's code, and the gaps are the
-  repo's gaps.</p>
-</footer>
-</body>
-</html>
+<section class="panel" id="cleared"><span class="acc">COURT / 01</span><h2>What gets cleared</h2>
+<p>privacy-script.sh clears shell histories, system and application logs, and diagnostic data. It clears browser data for Chrome, Safari, and Firefox, including histories, caches, cookies, and saved Firefox passwords. It clears developer and app caches (Homebrew, NPM, Yarn, Docker, Xcode, and others) and iOS device backups, empties the Trash, and clears the DNS cache.</p>
+<p class="note dark">Keeper's note, pinned under this label: deleted histories, passwords, logs, and backups do not come back. This part of the path only goes one way.</p></section>
+<div class="kerb"></div>
+<section class="panel" id="hardened"><span class="acc">COURT / 02</span><h2>What gets hardened</h2>
+<p>The same script resets macOS privacy (TCC) permissions: camera, microphone, accessibility, screen capture, contacts, calendar, photos, full disk access, and more. It disables telemetry for Firefox, Microsoft Office, Homebrew, .NET, and PowerShell, and removes the Google Software Update service. It disables Siri and remote management, remote Apple events, AirDrop, and Spotlight indexing. It enables the application firewall, firewall logging, and stealth mode, requires a password on wake, and disables guest access, remote login (SSH and SFTP), TFTP, and telnet.</p></section>
+<div class="kerb"></div>
+<section class="panel" id="run"><span class="acc">COURT / 03</span><h2>How to run each script</h2>
+<pre>chmod +x privacy-script.sh security_enable.sh
+./privacy-script.sh</pre>
+<p>The main script re-runs itself with sudo when it is not started as root. Each script pauses at the end waiting for a keypress; when stdin is not a terminal the pause is skipped and the scripts exit 0 on success. Read the section headers (the echo lines) first and remove anything you do not want before running.</p>
+<p>security_enable.sh is mostly the revert companion for a different, smaller set of tweaks. It enables Gatekeeper if it is currently disabled, restores the downloaded file warning, and turns automatic software update checks, downloads, and installs back on. It does not revert anything privacy-script.sh does, and running it does not harden a system.</p></section>
+<div class="kerb"></div>
+<section class="panel" id="cautions"><span class="acc">COURT / 04</span><h2>Cautions and reversals</h2>
+<p>Settings changed by the scripts can mostly be changed back in System Settings. Deletions cannot: histories, logs, diagnostic reports, caches of record, and backups removed by privacy-script.sh are gone. The repo carries 7 tests, run with python3 -m unittest discover -s tests, which check both scripts with bash -n and test the Gatekeeper gate and quarantine loop from security_enable.sh against stubs. No Mac run is claimed by the suite.</p>
+<p class="note">Tests last checked against the live repo on 2026-11-01. An earlier version of this page said there were no test files and gave line counts for a four file snapshot; both were stale and have been corrected from the repo itself.</p></section>
+<footer><p>The lake line, drawn small: a plesiosaur neck for a full stop. GPL-3.0, see the LICENSE file in the repo.</p></footer>
+</div></body></html>

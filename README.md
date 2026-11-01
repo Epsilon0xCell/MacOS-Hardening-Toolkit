@@ -1,12 +1,22 @@
-![banner](assets/banner.png)
+![Introduction banner](intro-banner.png)
+
 
 # MacOS-Hardening-Toolkit
+
+![Wordmark banner](banner.png)
+
+![Scene](scene.svg)
+
+> **Keeper's note:** both scripts need administrator rights and make system wide changes. Read a script line by line before you run it, the way every plaque in this court gets read before it is trusted.
 
 A personal collection of two macOS privacy and security shell scripts,
 both generated with [privacy.sexy](https://privacy.sexy/) (v0.13.7,
 December 2024) from a hand-picked tweak selection and kept here for
 reuse. Read a script before running it: both need administrator
 privileges and make system-wide changes.
+
+
+![Separator](sep-heavy.svg)
 
 ## privacy-script.sh (apply)
 
@@ -36,6 +46,9 @@ This is destructive by design: deleted histories, passwords, logs, and
 backups do not come back. There are real trade-offs, so skim the
 section headers (`echo '--- ...'` lines) and remove anything you do
 not want before running it.
+
+
+![Separator](sep-light.svg)
 
 ## security_enable.sh (mostly revert - read before running)
 
@@ -68,6 +81,9 @@ text, so a file name containing a double quote broke that file
 iteration; the name now arrives as the inner shell first positional
 argument instead. Nothing else in the generated bodies was changed.
 
+
+![Separator](sep-heavy.svg)
+
 ## Usage
 
 ```bash
@@ -77,6 +93,9 @@ chmod +x privacy-script.sh security_enable.sh
 
 Each script pauses at the end waiting for a keypress. When stdin is
 not a terminal the pause is skipped and the scripts exit 0 on success.
+
+
+![Separator](sep-light.svg)
 
 ## Tests
 
@@ -92,6 +111,9 @@ block out of `security_enable.sh` itself and run those pieces
 against stubbed version numbers and a stub `xattr`, including a
 Downloads file whose name contains a double quote. That is static
 and stub verification only. No Mac run is claimed.
+
+
+![Separator](sep-heavy.svg)
 
 ## License
 

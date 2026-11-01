@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 30" role="img" aria-label="Separator: three plaques and a fern frond">
+<rect y="13" width="1200" height="3" fill="#6d7a5e"/>
+<g fill="#efe9d2" stroke="#b08c3e" stroke-width="2"><rect x="470" y="4" width="52" height="20" rx="4"/><rect x="574" y="4" width="52" height="20" rx="4"/><rect x="678" y="4" width="52" height="20" rx="4"/></g>
+<path d="M600,24 q-4,-12 -14,-16 M600,24 q0,-13 4,-20 M600,24 q6,-11 16,-14" stroke="#274a34" stroke-width="2.5" fill="none"/></svg>
