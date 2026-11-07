@@ -1,13 +1,15 @@
-![Introduction banner](intro-banner.png)
+![Introduction banner: a watchmaker's hand turning a precision screwdriver in a screw of a brass movement held in a clamp, a loupe on its stand watching over it, the second screwdriver resting on the walnut bench among tiny screws](intro-banner.png)
 
 
 # MacOS-Hardening-Toolkit
 
-![Wordmark banner](banner.png)
+<p align="center"><img src="logo.png" alt="MacOS-Hardening-Toolkit logo: two fine screwdrivers crossed over a brass gear on a walnut bench, a watchmaker's loupe resting beside them with a small green glint in its lens" width="200"></p>
+
+![Wordmark banner: a walnut watchmaker's bench with an open instrument roll, two precision screwdrivers laid out as the featured pair among rows of smaller tools and tweezers, a brass movement in its holder at the side, steel blue shadows](banner.png)
 
 ![Scene](scene.svg)
 
-> **Keeper's note:** both scripts need administrator rights and make system wide changes. Read a script line by line before you run it, the way every plaque in this court gets read before it is trusted.
+> **Keeper's note:** both scripts need administrator rights and make system wide changes. Read a script line by line before you run it, the way every instrument on this bench gets checked before it is trusted.
 
 A personal collection of two macOS privacy and security shell scripts,
 both generated with [privacy.sexy](https://privacy.sexy/) (v0.13.7,
