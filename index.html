@@ -1,54 +1,55 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MacOS-Hardening-Toolkit: The Dinosaur Court</title><style>
-@font-face{font-family:Alkatra;src:url(fonts/Alkatra.ttf)}
-@font-face{font-family:Cabin;src:url(fonts/Cabin.ttf)}
-*{box-sizing:border-box}body{margin:0;background:#173b2e;color:#2c2418;font-family:Cabin,Georgia,sans-serif}
+<title>MacOS-Hardening-Toolkit: The Watchmaker's Bench</title><style>
+@font-face{font-family:'Prata';src:url('fonts/Prata-Regular.ttf') format('truetype')}
+@font-face{font-family:'Inter';src:url('fonts/Inter-Regular.ttf') format('truetype');font-weight:400}
+@font-face{font-family:'Inter';src:url('fonts/Inter-Bold.ttf') format('truetype');font-weight:700}
+*{box-sizing:border-box}body{margin:0;background:#2e2015;color:#2c2418;font-family:'Inter',sans-serif}
 .path{max-width:1060px;margin:0 auto;padding:0 18px 60px;border-left:6px solid #b08c3e}
-header{padding:34px 0 8px}header img{width:100%;border:4px solid #5c4630}
-h1,h2{font-family:Alkatra,serif;color:#173b2e}
-h1{font-size:2.4rem;margin:14px 0 6px;color:#efe9d2}
-.lede{color:#efe9d2;font-size:1.12rem;max-width:44rem}
+header{padding:34px 0 8px}header img{width:100%;border:4px solid #b08c3e}
+h1,h2{font-family:'Prata',serif;font-weight:400;color:#4a3220}
+h1{font-size:2.4rem;margin:14px 0 6px;color:#f3e9d2}
+.lede{color:#e8dcc0;font-size:1.12rem;max-width:44rem}
 nav{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
-a.btn{display:inline-block;background:#efe9d2;color:#2c2418;text-decoration:none;padding:9px 16px;border:2px solid #b08c3e;border-radius:6px 2px 6px 2px;position:relative;font-weight:700}
+a.btn{display:inline-block;background:#f6efe0;color:#2c2418;text-decoration:none;padding:9px 16px;border:2px solid #b08c3e;border-radius:3px;position:relative;font-weight:700}
 a.btn::before,a.btn::after{content:"";position:absolute;top:4px;width:6px;height:6px;border-radius:50%;background:#8a6d2f}
 a.btn::before{left:5px}a.btn::after{right:5px}
 a.btn:hover{box-shadow:inset 0 0 0 60px rgba(176,140,62,0.18)}
 a.btn:active{transform:translateY(2px)}
-.panel{background:#f3eedc;border:3px solid #5c4630;padding:22px 26px;margin:26px 0;position:relative;box-shadow:8px 8px 0 rgba(0,0,0,0.25)}
+.panel{background:#f6efe0;border:1px solid #8a6d2f;padding:22px 26px;margin:26px 0;position:relative;box-shadow:8px 8px 0 rgba(0,0,0,0.35)}
 .panel::before,.panel::after{content:"";position:absolute;top:8px;width:11px;height:11px;border-radius:50%;background:#b08c3e;border:2px solid #8a6d2f}
 .panel::before{left:10px}.panel::after{right:10px}
 .panel:nth-of-type(even){margin-left:56px}.panel:nth-of-type(odd){margin-right:56px}
 .acc{position:absolute;top:8px;right:34px;font-size:0.78rem;color:#8a6d2f;letter-spacing:0.12em}
-.note{background:#e6ddc2;border-left:6px solid #b08c3e;padding:12px 16px;font-style:italic}
-.note.dark{background:#d9cdb0;border-left-color:#5c4630;font-style:normal}
-code,pre{font-family:ui-monospace,Menlo,monospace}pre{background:#173b2e;color:#efe9d2;padding:14px;overflow:auto}
-.kerb{height:14px;background:#6d7a5e;position:relative;margin:34px 0}
-.kerb::after{content:"";position:absolute;left:50%;top:-6px;width:52px;height:24px;margin-left:-26px;background:#efe9d2;border:2px solid #b08c3e;border-radius:4px}
-footer{color:#efe9d2;text-align:center;padding:20px 0 0}
-a{color:#5c4630}a:hover{color:#b08c3e}
+.note{background:#ece1c8;border-left:6px solid #3d5a74;padding:12px 16px;font-style:italic}
+.note.dark{background:#ddd0ac;border-left-color:#4e7a4e;font-style:normal}
+code,pre{font-family:ui-monospace,Menlo,monospace}pre{background:#22303c;color:#f3e9d2;padding:14px;overflow:auto}
+.kerb{height:12px;background:repeating-linear-gradient(90deg,#6d4c2a 0 46px,#59391d 46px 48px);position:relative;margin:34px 0}
+.kerb::after{content:"";position:absolute;left:50%;top:-7px;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#d8b96a,#b08c3e 70%);border:2px solid #8a6d2f}
+footer{color:#e8dcc0;text-align:center;padding:20px 0 0}
+a{color:#7a5a1e}a:hover{color:#b08c3e}
 </style></head>
 <body><div class="path">
-<header><img src="assets/intro-banner.png" alt="The dinosaur court at dawn, stone animals around a misty lake">
+<header><img src="assets/intro-banner.png" alt="A watchmaker's hand turning a precision screwdriver in a screw of a brass movement held in a clamp, a loupe on its stand watching over it, the second screwdriver resting on the walnut bench among tiny screws">
 <h1>MacOS-Hardening-Toolkit</h1>
 <p class="lede">Two macOS privacy and security shell scripts, generated with privacy.sexy (v0.13.7, December 2024) from a hand picked tweak selection. The main script works through roughly 150 actions. Both scripts need administrator rights and make system wide changes, so read a script before you run it.</p>
 <nav><a class="btn" href="#cleared">What gets cleared</a><a class="btn" href="#hardened">What gets hardened</a><a class="btn" href="#run">How to run</a><a class="btn" href="#cautions">Cautions and reversals</a><a class="btn" href="https://github.com/Epsilon0xCell/MacOS-Hardening-Toolkit">The repo</a></nav>
 </header>
-<section class="panel" id="cleared"><span class="acc">COURT / 01</span><h2>What gets cleared</h2>
+<section class="panel" id="cleared"><span class="acc">BENCH / 01</span><h2>What gets cleared</h2>
 <p>privacy-script.sh clears shell histories, system and application logs, and diagnostic data. It clears browser data for Chrome, Safari, and Firefox, including histories, caches, cookies, and saved Firefox passwords. It clears developer and app caches (Homebrew, NPM, Yarn, Docker, Xcode, and others) and iOS device backups, empties the Trash, and clears the DNS cache.</p>
 <p class="note dark">Keeper's note, pinned under this label: deleted histories, passwords, logs, and backups do not come back. This part of the path only goes one way.</p></section>
 <div class="kerb"></div>
-<section class="panel" id="hardened"><span class="acc">COURT / 02</span><h2>What gets hardened</h2>
+<section class="panel" id="hardened"><span class="acc">BENCH / 02</span><h2>What gets hardened</h2>
 <p>The same script resets macOS privacy (TCC) permissions: camera, microphone, accessibility, screen capture, contacts, calendar, photos, full disk access, and more. It disables telemetry for Firefox, Microsoft Office, Homebrew, .NET, and PowerShell, and removes the Google Software Update service. It disables Siri and remote management, remote Apple events, AirDrop, and Spotlight indexing. It enables the application firewall, firewall logging, and stealth mode, requires a password on wake, and disables guest access, remote login (SSH and SFTP), TFTP, and telnet.</p></section>
 <div class="kerb"></div>
-<section class="panel" id="run"><span class="acc">COURT / 03</span><h2>How to run each script</h2>
+<section class="panel" id="run"><span class="acc">BENCH / 03</span><h2>How to run each script</h2>
 <pre>chmod +x privacy-script.sh security_enable.sh
 ./privacy-script.sh</pre>
 <p>The main script re-runs itself with sudo when it is not started as root. Each script pauses at the end waiting for a keypress; when stdin is not a terminal the pause is skipped and the scripts exit 0 on success. Read the section headers (the echo lines) first and remove anything you do not want before running.</p>
 <p>security_enable.sh is mostly the revert companion for a different, smaller set of tweaks. It enables Gatekeeper if it is currently disabled, restores the downloaded file warning, and turns automatic software update checks, downloads, and installs back on. It does not revert anything privacy-script.sh does, and running it does not harden a system.</p></section>
 <div class="kerb"></div>
-<section class="panel" id="cautions"><span class="acc">COURT / 04</span><h2>Cautions and reversals</h2>
+<section class="panel" id="cautions"><span class="acc">BENCH / 04</span><h2>Cautions and reversals</h2>
 <p>Settings changed by the scripts can mostly be changed back in System Settings. Deletions cannot: histories, logs, diagnostic reports, caches of record, and backups removed by privacy-script.sh are gone. The repo carries 7 tests, run with python3 -m unittest discover -s tests, which check both scripts with bash -n and test the Gatekeeper gate and quarantine loop from security_enable.sh against stubs. No Mac run is claimed by the suite.</p>
 <p class="note">Tests last checked against the live repo on 2026-11-01. An earlier version of this page said there were no test files and gave line counts for a four file snapshot; both were stale and have been corrected from the repo itself.</p></section>
-<footer><p>The lake line, drawn small: a plesiosaur neck for a full stop. GPL-3.0, see the LICENSE file in the repo.</p></footer>
+<footer><p>The bench line, drawn small: two screwdrivers crossed over a brass gear. GPL-3.0, see the LICENSE file in the repo. Fonts: Prata and Inter, self-hosted (SIL Open Font License 1.1, licenses beside the font files).</p></footer>
 </div></body></html>
